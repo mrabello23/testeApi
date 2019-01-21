@@ -7,6 +7,7 @@ RUN docker-php-ext-install pdo
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install mysqli
 RUN docker-php-ext-install bcmath
+
 RUN a2enmod rewrite
 
 COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
