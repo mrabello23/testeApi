@@ -1,10 +1,8 @@
 version: '3'
 services:
-  database:
-    container_name: teste_mysql
+  db_api:
+    container_name: api_mysql
     image: mysql:5.7
-    ports:
-      - 3306:3306
     restart: always
     command: --default-authentication-plugin=mysql_native_password
     environment:
@@ -13,16 +11,16 @@ services:
       MYSQL_USER: 'userdb'
       MYSQL_PASSWORD: 'passdb'
       MYSQL_DATABASE: 'testedb'
-  web:
-    container_name: teste_api
+  app_api:
+    container_name: api_web
     build:
       context: .
       dockerfile: .docker/Dockerfile
     volumes:
-      - ./:/app/
+      - ./:/var/www/html
     ports:
-      - 80:80
+      - 8080:80
     dns: 8.8.8.8
-    command: bash -c "apache2ctl -D FOREGROUND"
+    command: bash -c "service apache2 start && cd /var/www/html && composer install && tail -f /dev/null"
     links:
-      - 'database'
+      - 'db_api'

@@ -24,7 +24,6 @@ class CreateAssinaturasTable extends Migration
             $table->unsignedInteger('id_usuario');
             $table->unsignedInteger('id_plano');
             $table->foreign('id_usuario')->references('id')->on('usuarios');
-            $table->foreign('id_plano')->references('id')->on('planos');
             $table->timestamps();
         });
     }
