@@ -8,6 +8,7 @@ use App\Http\Resources\TransacaoApiResource;
 use App\Helper\CreditCardValidate;
 use App\Helper\ApiRestCall;
 use Illuminate\Support\Facades\Log;
+use Faker;
 
 class ApiController extends Controller
 {
@@ -94,41 +95,21 @@ class ApiController extends Controller
         return md5($token);
     }
 
+    /**
+     * [generateCreditCard description]
+     * https://github.com/fzaninotto/Faker
+     * @return array
+     */
     public function generateCreditCard()
     {
-        $api = ApiRestCall::postCall(
-            'https://www.4devs.com.br/ferramentas_online.php',
-            [
-                'acao' => 'gerar_cc',
-                'pontuacao' => 'N',
-                'bandeira' => 'master'
-            ]
-        );
+        $faker = Faker\Factory::create();
 
-        preg_match_all('/id=\".*<span/m', $api, $matches);
-
-
-        $retorno = [];
-
-        $indice = [
-            'cartao_numero' => 'numero',
-            'data_validade' => 'vencimento',
-            'codigo_seguranca' => 'codigo'
+        return [
+            'tipo' => $faker->creditCardType,
+            'numero' => $faker->creditCardNumber,
+            'vencimento' => $faker->creditCardExpirationDateString,
+            'codigo' => rand(1, 999)
         ];
-
-        foreach ($matches[0] as $key => $value) {
-            preg_match('/".*?[ "]/m', $value, $matchKey);
-            $k = current($matchKey);
-            $k = trim(str_replace('"', '', $k));
-
-            preg_match('/>.*</m', $value, $match);
-            $v = current($match);
-            $v = trim(str_replace('>', '', str_replace('<', '', $v)));
-
-            $retorno[$indice[$k]] = $v;
-        }
-
-        return $retorno;
     }
 
     public function generateCardAccept()
