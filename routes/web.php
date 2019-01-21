@@ -3,10 +3,6 @@
  * Web Routes
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/form-cadastro', 'UsuarioController@create');
 Route::get('/assinatura/{id}', 'AssinaturaController@show');
 Route::post('/save-usuario', 'UsuarioController@store');
