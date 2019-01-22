@@ -100,15 +100,20 @@ class ApiController extends Controller
      * https://github.com/fzaninotto/Faker
      * @return array
      */
-    public function generateCreditCard()
+    public function generateCreditCard($valid = true)
     {
-        $faker = Faker\Factory::create();
+        $faker = Faker\Factory::create('pt_BR');
+        $numero = $faker->creditCardNumber;
+
+        if (!$valid) {
+            $numero = mt_rand(1111, 2222) . mt_rand(3333, 4444) . mt_rand(5555, 6666) . mt_rand(7777, 8888);
+        }
 
         return [
             'tipo' => $faker->creditCardType,
-            'numero' => $faker->creditCardNumber,
+            'numero' => $numero,
             'vencimento' => $faker->creditCardExpirationDateString,
-            'codigo' => rand(1, 999)
+            'codigo' => rand(100, 999)
         ];
     }
 
@@ -129,11 +134,7 @@ class ApiController extends Controller
 
     public function generateCardRefuse()
     {
-        $creditCard = [
-            'numero' => mt_rand(1111, 2222) . mt_rand(3333, 4444) . mt_rand(5555, 6666) . mt_rand(7777, 8888),
-            'vencimento' => '01/9999',
-            'codigo' => '666'
-        ];
+        $creditCard = $this->generateCreditCard(false);
 
         $transacao = new TransacaoApi;
         $transacao->token = $this->generateToken($creditCard);

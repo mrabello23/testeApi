@@ -17,7 +17,10 @@ class AssinaturaController extends Controller
     public function index()
     {
         $assinatura = Assinatura::all();
-        return view('', $assinatura);
+        return response()->json([
+            'success' => true,
+            'dados' => $assinatura
+        ], 200);
     }
 
     /**
@@ -29,7 +32,10 @@ class AssinaturaController extends Controller
     public function show($id)
     {
         $assinatura = Assinatura::findOrFail($id);
-        return view('', $assinatura);
+        return response()->json([
+            'success' => true,
+            'dados' => $assinatura
+        ], 200);
     }
 
     /**
@@ -95,16 +101,16 @@ class AssinaturaController extends Controller
 
     public function generateCardAccept()
     {
-        return ApiRestCall::getCall(url('/api/gerar-autorizado'), []);
+        return ApiRestCall::getCall(env('APP_URL') . '/api/gerar-autorizado', []);
     }
 
     public function generateCardRefuse()
     {
-        return ApiRestCall::getCall(url('/api/gerar-recusado'), []);
+        return ApiRestCall::getCall(env('APP_URL') . '/api/gerar-recusado', []);
     }
 
     public function generateCardRandom()
     {
-        return ApiRestCall::getCall(url('/api/gerar-aleatorio'), []);
+        return ApiRestCall::getCall(env('APP_URL') . '/api/gerar-aleatorio', []);
     }
 }

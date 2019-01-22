@@ -21,7 +21,7 @@ services:
     ports:
       - 8080:80
     dns: 8.8.8.8
-    command: bash -c "service apache2 start && cd /var/www/html && composer install && tail -f /dev/null"
+    command: bash -c "service apache2 start && cd /var/www/html && composer install && php artisan key:generate && tail -f /dev/null"
     links:
       - db
     depends_on:
