@@ -48,6 +48,8 @@ class AssinaturaController extends Controller
     {
         try {
             $form = $request->all();
+            $form = Valida::validaEntrada($form, ['numero', 'vencimento', 'codigo']);
+
             $transacao = (isset($form['transacao']) ? $form['transacao'] : null);
 
             if (!$transacao) {
