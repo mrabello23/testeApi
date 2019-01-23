@@ -10,6 +10,11 @@ class AssinaturaControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp()
+    {
+        parent::setUp();
+    }
+
     /** @test */
     public function salvar_assinatura()
     {

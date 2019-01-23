@@ -21,27 +21,25 @@ class ApiControllerTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function test_gerar_cartao_aprovado()
+    public function test_gerar_cartao_que_sera_aprovado()
     {
         $response = $this->get(env('APP_URL') . '/api/gerar-autorizado');
         $response->assertStatus(200);
 
-        $dataJson = $response->getContent();
-        $dataArray = json_decode($dataJson, true);
+        $dataArray = json_decode($response->getContent(), true);
         $check = (bool) CreditCardValidate::luhnCheck($dataArray['cartao']['numero']);
 
         $this->assertTrue($check);
     }
 
-    // public function test_gerar_cartao_recusado()
-    // {
-    //     $response = $this->get(env('APP_URL') . '/api/gerar-recusado');
-    //     $response->assertStatus(200);
+    public function test_gerar_cartao_que_sera_recusado()
+    {
+        $response = $this->get(env('APP_URL') . '/api/gerar-recusado');
+        $response->assertStatus(200);
 
-    //     $dataJson = $response->getContent();
-    //     $dataArray = json_decode($dataJson, true);
-    //     $check = (bool) CreditCardValidate::luhnCheck($dataArray['cartao']['numero']);
+        $dataArray = json_decode($response->getContent(), true);
+        $check = (bool) CreditCardValidate::luhnCheck($dataArray['cartao']['numero']);
 
-    //     $this->assertFalse($check);
-    // }
+        $this->assertFalse($check);
+    }
 }

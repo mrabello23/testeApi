@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Usuario;
 use App\Telefone;
 use Illuminate\Support\Facades\Log;
+use App\Helper\Valida;
 
 class UsuarioController extends Controller
 {
@@ -35,6 +36,7 @@ class UsuarioController extends Controller
     {
         try {
             $form = $request->all();
+            $form = Valida::validaEntrada($form, ['cpf', 'email']);
 
             $usuario = new Usuario;
             $usuario->nome = $form['nome'];
@@ -77,6 +79,10 @@ class UsuarioController extends Controller
     public function storeTelefones(array $telefones, $id_usuario)
     {
         try {
+            if (empty($telefones)) {
+                return false;
+            }
+
             foreach ($telefones as $tel) {
                 $telefone = new Telefone;
                 $telefone->numero = $tel;
@@ -88,6 +94,8 @@ class UsuarioController extends Controller
 
                 Log::info('Telefone '.$telefone->id.' criado com sucesso!');
             }
+
+            return true;
         } catch (Exception $e) {
             Log::error($e->getMessage() ."\r\n". $e->getTraceAsString());
             throw $e;
