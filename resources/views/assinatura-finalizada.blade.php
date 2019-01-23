@@ -82,8 +82,4 @@
             </div> <!-- /.container -->
         </div> <!-- /#divAssinaturaSucesso -->
     @endif
-
-    <!-- JS -->
-    <script type="text/javascript">
-    </script>
 @endsection

@@ -13,6 +13,7 @@ services:
       MYSQL_DATABASE: "testedb"
   web:
     container_name: web_app
+    restart: always
     build:
       context: .
       dockerfile: .docker/Dockerfile
@@ -21,7 +22,13 @@ services:
     ports:
       - 8080:80
     dns: 8.8.8.8
-    command: bash -c "service apache2 start && cd /var/www/html && composer install && php artisan key:generate && tail -f /dev/null"
+    command: bash -c "service apache2 restart && 
+      cd /var/www/html && 
+      composer install && 
+      npm install && 
+      php artisan key:generate && 
+      php artisan migrate:fresh --seed && 
+      tail -f /dev/null"
     links:
       - db
     depends_on:

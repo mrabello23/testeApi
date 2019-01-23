@@ -5,7 +5,9 @@
 
 Route::get('/', 'UsuarioController@create');
 Route::get('/form-cadastro', 'UsuarioController@create');
+Route::get('/assinatura', 'AssinaturaController@index');
 Route::get('/assinatura/{id}', 'AssinaturaController@show');
+
 Route::post('/save-usuario', 'UsuarioController@store');
 Route::post('/save-assinatura', 'AssinaturaController@store');
 

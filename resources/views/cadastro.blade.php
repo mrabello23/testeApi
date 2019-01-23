@@ -1,7 +1,5 @@
 @extends('includes.app')
 
-@section('cadastro-page', 'active')
-
 @section('content')
     <div class="mx-auto col-lg-8 col-10 pt-5" id="sectionConteudo">
         <h1>Cadastro de Usuários</h1>
@@ -117,7 +115,7 @@
                 $('.telefone').mask(telMaskBehavior, telMaskoptions);
             });
 
-            $('form').submit(function(event) {
+            $('#formUsuario').submit(function(event) {
                 $('.cpf').css('border-color', '#ced4da');
                 var erro = 0;
 

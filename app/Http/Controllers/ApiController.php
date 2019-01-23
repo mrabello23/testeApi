@@ -84,7 +84,7 @@ class ApiController extends Controller
      * @param  array  $dados [description]
      * @return [type]        [description]
      */
-    public function generateToken(array $dados)
+    private function generateToken(array $dados)
     {
         $token = '';
         $token .= $dados['numero'] . '_';
@@ -100,7 +100,7 @@ class ApiController extends Controller
      * https://github.com/fzaninotto/Faker
      * @return array
      */
-    public function generateCreditCard($valid = true)
+    private function generateCreditCard($valid = true)
     {
         $faker = Faker\Factory::create('pt_BR');
         $numero = $faker->creditCardNumber;
@@ -119,32 +119,56 @@ class ApiController extends Controller
 
     public function generateCardAccept()
     {
-        $creditCard = $this->generateCreditCard();
+        try {
+            $creditCard = $this->generateCreditCard();
 
-        $transacao = new TransacaoApi;
-        $transacao->token = $this->generateToken($creditCard);
-        $transacao->status = 'AUTORIZADO';
-        $transacao->save();
+            $transacao = new TransacaoApi;
+            $transacao->token = $this->generateToken($creditCard);
+            $transacao->status = 'AUTORIZADO';
 
-        return response()->json([
-            'success' => true,
-            'cartao' => $creditCard
-        ], 200);
+            if (!$transacao->save()) {
+                throw new Exception('Erro ao salvar transação para cartão autorizado');
+            }
+
+            return response()->json([
+                'success' => true,
+                'cartao' => $creditCard
+            ], 200);
+        } catch (Exception $e) {
+            Log::error($e->getMessage() ."\r\n". $e->getTraceAsString());
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function generateCardRefuse()
     {
-        $creditCard = $this->generateCreditCard(false);
+        try {
+            $creditCard = $this->generateCreditCard(false);
 
-        $transacao = new TransacaoApi;
-        $transacao->token = $this->generateToken($creditCard);
-        $transacao->status = 'RECUSADO';
-        $transacao->save();
+            $transacao = new TransacaoApi;
+            $transacao->token = $this->generateToken($creditCard);
+            $transacao->status = 'RECUSADO';
 
-        return response()->json([
-            'success' => true,
-            'cartao' => $creditCard
-        ], 200);
+            if (!$transacao->save()) {
+                throw new Exception('Erro ao salvar transação para cartão recusado');
+            }
+
+            return response()->json([
+                'success' => true,
+                'cartao' => $creditCard
+            ], 200);
+        } catch (Exception $e) {
+            Log::error($e->getMessage() ."\r\n". $e->getTraceAsString());
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function generateCardRandom()

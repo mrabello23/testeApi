@@ -60,6 +60,11 @@ class UsuarioController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e->getMessage() ."\r\n". $e->getTraceAsString());
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 
@@ -83,11 +88,9 @@ class UsuarioController extends Controller
 
                 Log::info('Telefone '.$telefone->id.' criado com sucesso!');
             }
-
-            return true;
         } catch (Exception $e) {
             Log::error($e->getMessage() ."\r\n". $e->getTraceAsString());
-            return false;
+            throw $e;
         }
     }
 }
