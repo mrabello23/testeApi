@@ -51,7 +51,7 @@ class AssinaturaController extends Controller
             $transacao = (isset($form['transacao']) ? $form['transacao'] : null);
 
             if (!$transacao) {
-                $api = ApiRestCall::postCall(url('/api/autorizar-pagamento'), [
+                $api = ApiRestCall::postCall(env('APP_URL') . '/api/autorizar-pagamento', [
                     'numero' => $form['numero'],
                     'vencimento' => $form['vencimento'],
                     'codigo' => $form['codigo']
