@@ -3,8 +3,8 @@
 ## Requisitos
 - Docker instalado
 - Git bash instalado
-- Spotfy aberto (codar ouvindo um som é bom demais)
-- Café a mão (indispensável)
+- Spotify (codar ouvindo um som é bom demais)
+- Café (indispensável)
 
 ## Executar projeto
 - Acessar pasta da aplicação via git bash
