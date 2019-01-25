@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Assinatura;
 use App\Helper\ApiRestCall;
+use App\Helper\Valida;
 use Illuminate\Support\Facades\Log;
 
 class AssinaturaController extends Controller
@@ -62,8 +63,10 @@ class AssinaturaController extends Controller
                 $transacao = json_decode($api, true);
             }
 
+            Log::info('Transação  para cartão '.$form['numero'].' criada com sucesso!');
+
             if (!$transacao['codigo'] || !$transacao['status']) {
-                throw new Exception('Erro ao registrar a transação na API.');
+                throw new DomainException('Erro ao registrar a transação na API.');
             }
 
             $assinatura = new Assinatura;
@@ -79,6 +82,8 @@ class AssinaturaController extends Controller
                 throw new Exception('Erro ao finalizar a assinatura.');
             }
 
+            Log::info('Assinatura '.$assinatura->id.' criada com sucesso!');
+
             return view('assinatura-finalizada', [
                 'usuario' => \App\Usuario::findOrFail($form['usuario']),
                 'plano' => \App\Plano::findOrFail($form['plano']),
@@ -86,7 +91,7 @@ class AssinaturaController extends Controller
                 'assinatura' => $assinatura,
                 'success' => true
             ]);
-        } catch (Exception $e) {
+        } catch (DomainException $e) {
             Log::error($e->getMessage() ."\r\n". $e->getTraceAsString());
 
             return view('assinatura-finalizada', [
@@ -98,6 +103,13 @@ class AssinaturaController extends Controller
                 'plano' => $form['plano'],
                 'success' => false
             ]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage() ."\r\n". $e->getTraceAsString());
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 

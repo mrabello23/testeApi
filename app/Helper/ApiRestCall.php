@@ -9,7 +9,11 @@ class ApiRestCall
 {
     /**
      * [postCall description]
+     * @param string $url
+     * @param mixed $dados
      * @return bool
+     *
+     * @throws Exception
      */
     public static function postCall($url, array $dados)
     {
@@ -34,8 +38,12 @@ class ApiRestCall
     }
 
     /**
-     * [postCall description]
+     * [getCall description]
+     * @param string $url
+     * @param mixed $dados
      * @return bool
+     *
+     * @throws Exception
      */
     public static function getCall($url, array $dados)
     {

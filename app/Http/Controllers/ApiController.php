@@ -46,6 +46,18 @@ class ApiController extends Controller
         try {
             $data = $request->all();
 
+            if (!isset($data['numero']) || empty($data['numero'])) {
+                throw new InvalidArgumentException('Parâmetro "numero" vazio ou não informado.');
+            }
+
+            if (!isset($data['vencimento']) || empty($data['vencimento'])) {
+                throw new InvalidArgumentException('Parâmetro "vencimento" vazio ou não informado.');
+            }
+
+            if (!isset($data['codigo']) || empty($data['codigo'])) {
+                throw new InvalidArgumentException('Parâmetro "codigo" vazio ou não informado.');
+            }
+
             $msg = 'Transação foi recusada pela operadora.';
             $success = false;
             $status = 'RECUSADO';
@@ -61,7 +73,12 @@ class ApiController extends Controller
             $transacao = new TransacaoApi;
             $transacao->token = $token;
             $transacao->status = $status;
-            $transacao->save();
+
+            if (!$transacao->save()) {
+                throw new Exception('Erro ao salvar transação.');
+            }
+
+            Log::info('Transação '.$transacao->id.' criada com sucesso! [Token: '.$transacao->token.' | Status: '.$transacao->status.']');
 
             return response()->json([
                 'success' => $success,
@@ -82,7 +99,7 @@ class ApiController extends Controller
     /**
      * [generateToken description]
      * @param  array  $dados [description]
-     * @return [type]        [description]
+     * @return string
      */
     private function generateToken(array $dados)
     {
@@ -106,7 +123,7 @@ class ApiController extends Controller
         $numero = $faker->creditCardNumber;
 
         if (!$valid) {
-            $numero = mt_rand(1111, 2222) . mt_rand(3333, 4444) . mt_rand(5555, 6666) . mt_rand(7777, 8888);
+            $numero = 1122334455667788;
         }
 
         return [
