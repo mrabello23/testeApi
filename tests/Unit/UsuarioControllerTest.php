@@ -49,13 +49,14 @@ class UsuarioControllerTest extends TestCase
         ]);
 
         $response->assertStatus(500);
+        $this->assertDatabaseMissing('usuarios', ['email' => '', 'cpf' => '']);
     }
 
     public function test_salvar_telefones_para_um_usuario()
     {
         $user = factory(Usuario::class)->create(['id' => 5000]);
-        (new UsuarioController)->storeTelefones(['(11) 98765-4248'], $user->id);
+        (new UsuarioController)->storeTelefones(['(11) 99999-0000'], $user->id);
 
-        $this->assertDatabaseHas('telefones', ['numero' => '(11) 98765-4248', 'id_usuario' => 5000]);
+        $this->assertDatabaseHas('telefones', ['numero' => '(11) 99999-0000', 'id_usuario' => 5000]);
     }
 }
