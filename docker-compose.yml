@@ -24,9 +24,8 @@ services:
     dns: 8.8.8.8
     command: bash -c "service apache2 restart && 
       cd /var/www/html && 
-      composer install && 
-      npm install && 
       cp env.exemple .env && 
+      composer install && 
       php artisan key:generate && 
       php artisan migrate:fresh --seed && 
       tail -f /dev/null"
