@@ -23,6 +23,7 @@ services:
       - 8080:80
     dns: 8.8.8.8
     command: bash -c "service apache2 restart && 
+      chmod -R 777 /var/www/html && 
       cd /var/www/html && 
       cp env.exemple .env && 
       composer install && 
