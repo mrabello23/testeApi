@@ -22,12 +22,14 @@ services:
     ports:
       - 8080:80
     dns: 8.8.8.8
-    command: bash -c "service apache2 restart && 
+    command: bash -c "service apache2 stop && 
+      chmod -R 777 /var/www/html && 
       cd /var/www/html && 
+      cp env.example .env && 
       composer install && 
-      npm install && 
       php artisan key:generate && 
       php artisan migrate:fresh --seed && 
+      service apache2 start && 
       tail -f /dev/null"
     links:
       - db
