@@ -2,19 +2,31 @@
 
 ## Requisitos
 - Docker instalado
-- Git bash instalado
+- Composer instalados
 
+## Rodar com Docker
+- clonar projeto
+- navegar até pasta raiz do projeto via bash
+- executar: composer install
+- executar: mv env-example .env
+- executar: docker-compose up -d
+- em caso de primeiro criação das máquinas, realizar agora o passo "Usuando Docker: Primeira Configuração BD"
+- acessar maquina web: docker exec -it web_app bash
+- executar dentro da maquina web: php artisan key:generate
+- executar dentro da maquina web: php artisan migrate:fresh --seed
+- sair da maquina: exit;
 
-## Executar projeto
-- Acessar pasta da aplicação via git bash
-- Executar comando "docker-compose build" para criar as imagens dos containers
-- Executar comando "docker-compose up -d" para iniciar os containers
-- Abrir a aplicação no endereço "http://localhost:8080/"
-- Ao final dos testes acessar pasta da aplicação via git bash e executar comando "docker-compose down" para encerrar os containers
-
+## Docker: Primeira Configuração BD
+- acessar maquina do BD: docker exec -it web_mysql bash
+- logar com usuario do mysql: mysql -u root -p
+- usar senha conforme setado no docker-compose: rootpass
+- criar usuario para mysql: CREATE USER 'userdb'@'testedb' IDENTIFIED BY 'passdb';
+- liberar permissões para usuario: GRANT ALL PRIVILEGES ON * . * TO 'userdb'@'testedb';
+- recarregar as permissões: FLUSH PRIVILEGES;
+- sair da maquina: exit;
 
 ## Testes unitários
-- Acessar pasta da aplicação via git bash
+- Acessar pasta da aplicação via bash
 - Executar comando "docker-compose build" para criar as imagens dos containers caso não tenha sido feito no passo anterior
 - Executar comando "docker-compose up -d" para iniciar os containers
 - Executar comando "docker exec -it web_app bash" para acessar o container da aplicação no modo interativo ("web_app" é nome setado no docker-compose.yml)
@@ -24,6 +36,5 @@
 
 ## Observações Importantes
 - Projeto estará acessível via browser / bash somente após finalizada instalação e/ou atualização das dependências do framework
-- Primeira execução dos comando de "build" e "up" poderá ser demorada, variando entre 5 a 15 minutos dependendo da rede disponível
 - Para acessar qualquer container iniciado no modo interativo devemos usar comando "docker exec -it NOME_OU_ID_CONTAINER bash"
 - Para execução do modo interativo via bash existe uma limitação em ambiente Windows ("cannot enable tty mode on non tty input"), que força o camando ser iniciado com "winpty" ficando desta forma: "winpty docker exec -it NOME_OU_ID_CONTAINER bash"
