@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Usuario;
-use App\Telefone;
+use App\Models\Usuario;
+use App\Models\Telefone;
 use Illuminate\Support\Facades\Log;
 use App\Helper\Valida;
 

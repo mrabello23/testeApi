@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Assinatura;
+use App\Models\Assinatura;
 use App\Helper\ApiRestCall;
 use App\Helper\Valida;
 use Illuminate\Support\Facades\Log;

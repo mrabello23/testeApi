@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\TransacaoApi;
+use App\Models\TransacaoApi;
 use App\Http\Resources\TransacaoApiResource;
 use App\Helper\CreditCardValidate;
 use App\Helper\ApiRestCall;
