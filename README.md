@@ -10,7 +10,6 @@
 - executar: composer install
 - executar: mv env-example .env
 - executar: docker-compose up -d
-- em caso de primeiro criação das máquinas, realizar agora o passo "Usuando Docker: Primeira Configuração BD"
 - acessar maquina web: docker exec -it web_app bash
 - executar dentro da maquina web: php artisan key:generate
 - executar dentro da maquina web: php artisan migrate:fresh --seed
