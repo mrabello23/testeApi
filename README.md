@@ -16,14 +16,6 @@
 - executar dentro da maquina web: php artisan migrate:fresh --seed
 - sair da maquina: exit;
 
-## Docker: Primeira Configuração BD
-- acessar maquina do BD: docker exec -it web_mysql bash
-- logar com usuario do mysql: mysql -u root -p
-- usar senha conforme setado no docker-compose: rootpass
-- criar usuario para mysql: CREATE USER 'userdb'@'testedb' IDENTIFIED BY 'passdb';
-- liberar permissões para usuario: GRANT ALL PRIVILEGES ON * . * TO 'userdb'@'testedb';
-- recarregar as permissões: FLUSH PRIVILEGES;
-- sair da maquina: exit;
 
 ## Testes unitários
 - Acessar pasta da aplicação via bash
